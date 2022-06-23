@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const Home: NextPage = () => {
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
       </Head>
       <h1>アニメ一覧</h1>
       <p>シーズンごとにアニメの一覧を見れるよ！</p>
+      <Link href='/animeList'>AnimeList</Link>
       <ul>
         {
           animeList.map((anime, index) => {
