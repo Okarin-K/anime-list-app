@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Heading, Select, SimpleGrid } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Link, Select, SimpleGrid } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { Anime } from "../types/anime";
@@ -10,7 +10,7 @@ const AnimeList: NextPage = () => {
     const whenData = [];
     const day = new Date();
     const nowYear = day.getFullYear();
-    const startYear = 2010;
+    const startYear = 2014;
     const cools = ["冬", "春", "夏", "秋"];
     for(let year = startYear; year <= nowYear; year++) {
         for(let cool = 0; cool < cools.length; cool++) {
@@ -21,10 +21,21 @@ const AnimeList: NextPage = () => {
     useEffect(() => {
         const subscribe = async () => {
             console.log(selectCool);
-            const response = await fetch(`http://api.moemoe.tokyo/anime/v1/master/${selectCool}`);
 
-            const data: Anime[] = await response.json();
-            setAnimeList(data);
+            const coolArray = selectCool.split('/');
+
+            console.log(coolArray);
+            const queryParams = new URLSearchParams({
+                year: coolArray[0],
+                cool: coolArray[1]
+            })
+            const response = await fetch('http://localhost:5000/animeList?' + queryParams);
+
+            const data: {
+                items: Anime[],
+                code: string
+            } = await response.json();
+            setAnimeList(data.items);
         }
 
         subscribe();
@@ -58,7 +69,9 @@ const AnimeList: NextPage = () => {
                             <Box bg='green.100' height='80px'>
                                 
                                 <Heading size='md'>{anime.title}</Heading>
-                                <a href={anime.public_url}>{anime.public_url}</a>
+                                <Link href={anime.public_url}>
+                                    <a target='_blank'>{anime.public_url}</a>
+                                </Link>
                             </Box>
                         )
                     })
