@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Heading, Link, Select, SimpleGrid } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Image, Select, SimpleGrid } from "@chakra-ui/react";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { Anime } from "../types/anime";
@@ -35,6 +35,7 @@ const AnimeList: NextPage = () => {
                 items: Anime[],
                 code: string
             } = await response.json();
+
             setAnimeList(data.items);
         }
 
@@ -66,13 +67,10 @@ const AnimeList: NextPage = () => {
                 {
                     animeList.map(anime => {
                         return (
-                            <Box bg='green.100' height='80px'>
-                                
-                                <Heading size='md'>{anime.title}</Heading>
-                                <Link href={anime.public_url}>
-                                    <a target='_blank'>{anime.public_url}</a>
-                                </Link>
-                            </Box>
+                                <Box bg='green.100' height='300px'>
+                                    <Image src={anime.image} />
+                                    <Heading size='md'>{anime.title}</Heading>
+                                </Box>
                         )
                     })
                 }
